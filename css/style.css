@@ -35,6 +35,13 @@ img
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.chart-container
+{
+    margin: 10px 30px 20px 30px;
+    height: 90vh;
+    width: auto;
+}
+
 .wrapper
 {
     display: flex;
@@ -73,4 +80,12 @@ img
 
 input[type="file"] {
     display: none;
+}
+
+@media only screen and (max-width: 600px) {
+    .chart-container {
+        margin: 10px 0px 20px 0px;
+        height: 60vh;
+        width: auto;
+    }
 }

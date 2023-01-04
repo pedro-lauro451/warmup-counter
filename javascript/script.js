@@ -43,6 +43,48 @@ var colors = [
 "#67c79c", 
 "#d64f4f"];
 
+const ctx = document.getElementById("myChart");
+var chart;
+
+function generateNewChart()
+{
+        chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: day,
+            datasets: [
+                {
+                    label: "Gmail",
+                    data: gmail,
+                    borderWidth: 1,
+                    borderColor: "#d64f4f"
+                },
+                {
+                    label: "Hotmail",
+                    data: hotmail,
+                    borderWidth: 1,
+                    borderColor: "#7590EA"
+                },
+                {
+                    label: "Yahoo",
+                    data: yahoo,
+                    borderWidth: 1,
+                    borderColor: "#D775EA",
+                },
+                {
+                    label: "Outros",
+                    data: outros,
+                    borderWidth: 1,
+                    borderColor: "#7CE964"
+                }
+            ]
+        },
+        options: {
+            maintainAspectRatio: false,
+        }
+    });
+}
+
 function hover(img)
 {
     img.src = "images/trash-empty-svgrepo-com.svg";
@@ -61,6 +103,7 @@ function deleteFilters(id) {
 
 function useDeleteFilters()
 {
+    chart.destroy();
     inputDiv.style.display = "initial";
     deleteFilters(gmail_wp);
     deleteFilters(hotmail_wp);
@@ -68,64 +111,6 @@ function useDeleteFilters()
     deleteFilters(others_wp);
     input.value = null;
     isActive = false;
-}
-
-function calculateFilters(array, warmupLength, id, total) {
-
-    var initialCount = 1;
-    var start = [];
-    var end = [];
-    var d = 1;
-    var campaign = 0;
-
-    for (i = 0; i < warmupLength; i++) {
-        if (array[i] + initialCount > total) {
-            initialCount = 1;
-            campaign = campaign + 1;
-        }
-        start[i] = initialCount;
-        end[i] = array[i] + initialCount;
-
-        initialCount = initialCount + array[i];
-
-        const para = document.createElement("p");
-        para.innerHTML = "D" + d + "&nbsp;&nbsp;Início: " + Math.round(start[i]) + " Fim: " + Math.round(end[i] - 1);
-        para.setAttribute("style", "margin:1; padding:10px; background-color:#000; border: 1px solid" + " " + colors[campaign] + ";" + "color:" + colors[campaign]);
-        id.appendChild(para);
-        d++;
-    }
-}
-
-function useCalculateFilters()
-{
-    inputDiv.style.display = "none";
-    calculateFilters(gmail, length, gmail_wp, total_gmail);
-    calculateFilters(hotmail, length, hotmail_wp, total_hotmail);
-    calculateFilters(yahoo, length, yahoo_wp, total_yahoo);
-    calculateFilters(outros, length, others_wp, total_others);
-}
-
-trash.onclick = function () {
-    
-    useDeleteFilters();
-    trash.style.display = "none";
-
-    day = [];
-    gmail = [];
-    hotmail = [];
-    yahoo = [];
-    outros = [];
-
-    total_gmail = [];
-    total_hotmail = [];
-    total_yahoo = [];
-    total_others = [];
-
-    length = 0;
-    total = 0;
-
-    i = 0;
-    y = 0;
 }
 
 input.addEventListener('change', function () {
@@ -158,3 +143,66 @@ input.addEventListener('change', function () {
             }
         );
 })
+
+function calculateFilters(array, warmupLength, id, total, name) {
+
+    var initialCount = 1;
+    var start = [];
+    var end = [];
+    var d = 1;
+    var campaign = 0;
+
+    var column_name = document.createElement("p");
+    column_name.innerHTML = name;
+    id.appendChild(column_name);
+
+    for (i = 0; i < warmupLength; i++) {
+        if (array[i] + initialCount > total) {
+            initialCount = 1;
+            campaign = campaign + 1;
+        }
+        start[i] = initialCount;
+        end[i] = array[i] + initialCount;
+
+        initialCount = initialCount + array[i];
+
+        const para = document.createElement("p");
+        para.innerHTML = "D" + d + "&nbsp;&nbsp;Início: " + Math.round(start[i]) + " Fim: " + Math.round(end[i] - 1);
+        para.setAttribute("style", "margin:1; padding:10px; background-color:#000; border: 1px solid" + " " + colors[campaign] + ";" + "color:" + colors[campaign]);
+        id.appendChild(para);
+        d++;
+    }
+}
+
+function useCalculateFilters()
+{
+    inputDiv.style.display = "none";
+    calculateFilters(gmail, length, gmail_wp, total_gmail,"Gmail");
+    calculateFilters(hotmail, length, hotmail_wp, total_hotmail,"Hotmail");
+    calculateFilters(yahoo, length, yahoo_wp, total_yahoo,"Yahoo");
+    calculateFilters(outros, length, others_wp, total_others,"Outros");
+    generateNewChart();
+}
+
+trash.onclick = function () {
+    
+    useDeleteFilters();
+    trash.style.display = "none";
+
+    day = [];
+    gmail = [];
+    hotmail = [];
+    yahoo = [];
+    outros = [];
+
+    total_gmail = [];
+    total_hotmail = [];
+    total_yahoo = [];
+    total_others = [];
+
+    length = 0;
+    total = 0;
+
+    i = 0;
+    y = 0;
+}
