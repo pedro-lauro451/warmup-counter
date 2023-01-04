@@ -57,32 +57,56 @@ function generateNewChart()
                     label: "Gmail",
                     data: gmail,
                     borderWidth: 1,
-                    borderColor: "#d64f4f"
+                    borderColor: "#FF3131",
+                    backgroundColor: "#000000",
                 },
                 {
                     label: "Hotmail",
                     data: hotmail,
                     borderWidth: 1,
-                    borderColor: "#7590EA"
+                    borderColor: "#0072c6",
+                    backgroundColor: "#000000"
                 },
                 {
                     label: "Yahoo",
                     data: yahoo,
                     borderWidth: 1,
-                    borderColor: "#D775EA",
+                    borderColor: "#9D00FF",
+                    backgroundColor: "#000000"
                 },
                 {
                     label: "Outros",
                     data: outros,
                     borderWidth: 1,
-                    borderColor: "#7CE964"
+                    borderColor: "#39FF14",
+                    backgroundColor: "#000000"
                 }
             ]
         },
         options: {
             maintainAspectRatio: false,
+            scales: {
+                y: {
+                  ticks: { color: '#ffffff', beginAtZero: true }
+                },
+                x: {
+                  ticks: { color: '#ffffff', beginAtZero: true }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 14
+                        },
+                        color: 'white',
+                    }
+                }
+            }
         }
     });
+    ctx.style.backgroundColor = "#000000";
+    ctx.style.border = "1px dotted #fec32d";
 }
 
 function hover(img)
@@ -111,6 +135,8 @@ function useDeleteFilters()
     deleteFilters(others_wp);
     input.value = null;
     isActive = false;
+    ctx.style.backgroundColor = "transparent";
+    ctx.style.border = "none";
 }
 
 input.addEventListener('change', function () {
