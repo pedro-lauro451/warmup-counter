@@ -1,10 +1,12 @@
 var input = document.getElementById('input');
-var inputDiv = document.getElementById('input-label');
+var input_label = document.getElementById('input_label');
 var gmail_wp = document.getElementById('gmail_wp');
 var hotmail_wp = document.getElementById('hotmail_wp');
 var yahoo_wp = document.getElementById('yahoo_wp');
 var others_wp = document.getElementById('others_wp');
-var trash = document.getElementById('trash');
+var trash_btn = document.getElementById('trash_btn');
+var chart_btn = document.getElementById('chart_btn');
+var chart_container = document.getElementById('chart_container');
 
 var item = document.querySelectorAll('.item');
 
@@ -25,8 +27,6 @@ var total = 0;
 var i = 0;
 var y = 0;
 
-var isActive = false;
-
 var colors = [
 "#B6FCE8", 
 "#7CE964", 
@@ -43,8 +43,21 @@ var colors = [
 "#67c79c", 
 "#d64f4f"];
 
-const ctx = document.getElementById("myChart");
+const ctx = document.getElementById("ctx");
 var chart;
+
+chart_btn.onclick = () => {
+    if(ctx.style.display == "none") 
+    {
+        ctx.style.display = "initial";
+        chart_container.style.height = "90vh";
+    }
+    else 
+    {
+        ctx.style.display = "none";
+        chart_container.style.height = "0px";
+    }
+}
 
 function generateNewChart()
 {
@@ -58,28 +71,28 @@ function generateNewChart()
                     data: gmail,
                     borderWidth: 1,
                     borderColor: "#FF3131",
-                    backgroundColor: "#000000",
+                    backgroundColor: "#FF3131",
                 },
                 {
                     label: "Hotmail",
                     data: hotmail,
                     borderWidth: 1,
                     borderColor: "#0072c6",
-                    backgroundColor: "#000000"
+                    backgroundColor: "#0072c6"
                 },
                 {
                     label: "Yahoo",
                     data: yahoo,
                     borderWidth: 1,
                     borderColor: "#9D00FF",
-                    backgroundColor: "#000000"
+                    backgroundColor: "#9D00FF"
                 },
                 {
                     label: "Outros",
                     data: outros,
                     borderWidth: 1,
                     borderColor: "#39FF14",
-                    backgroundColor: "#000000"
+                    backgroundColor: "#39FF14"
                 }
             ]
         },
@@ -105,8 +118,9 @@ function generateNewChart()
             }
         }
     });
-    ctx.style.backgroundColor = "#000000";
+    ctx.style.backgroundColor = "#151515";
     ctx.style.border = "1px dotted #fec32d";
+    ctx.style.display = "none";
 }
 
 function hover(img)
@@ -128,20 +142,21 @@ function deleteFilters(id) {
 function useDeleteFilters()
 {
     chart.destroy();
-    inputDiv.style.display = "initial";
+    input_label.style.display = "initial";
     deleteFilters(gmail_wp);
     deleteFilters(hotmail_wp);
     deleteFilters(yahoo_wp);
     deleteFilters(others_wp);
     input.value = null;
-    isActive = false;
     ctx.style.backgroundColor = "transparent";
     ctx.style.border = "none";
+    ctx.style.display = "none";
+    chart_container.style.height = "0px";
 }
 
 input.addEventListener('change', function () {
-    isActive = true;
-    trash.style.display = "initial";
+    trash_btn.style.display = "initial";
+    chart_btn.style.display = "initial";
     item.forEach(item => {
         item.style.display = 'initial';
     });
@@ -202,7 +217,7 @@ function calculateFilters(array, warmupLength, id, total, name) {
 
 function useCalculateFilters()
 {
-    inputDiv.style.display = "none";
+    input_label.style.display = "none";
     calculateFilters(gmail, length, gmail_wp, total_gmail,"Gmail");
     calculateFilters(hotmail, length, hotmail_wp, total_hotmail,"Hotmail");
     calculateFilters(yahoo, length, yahoo_wp, total_yahoo,"Yahoo");
@@ -210,10 +225,11 @@ function useCalculateFilters()
     generateNewChart();
 }
 
-trash.onclick = function () {
+trash_btn.onclick = function () {
     
     useDeleteFilters();
-    trash.style.display = "none";
+    trash_btn.style.display = "none";
+    chart_btn.style.display = "none";
 
     day = [];
     gmail = [];

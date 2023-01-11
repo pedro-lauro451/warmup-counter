@@ -33,12 +33,12 @@ img
     align-items: flex-start;
     margin-left: 54px;
     font-family: Arial, Helvetica, sans-serif;
+    flex-grow: 1;
 }
 
 .chart-container
 {
     margin: 10px 10px 20px 10px;
-    height: 90vh;
     width: auto;
 }
 
@@ -58,6 +58,7 @@ img
 .icon:hover
 {
     cursor: pointer;
+    filter: invert(100%) sepia(70%) saturate(2332%) hue-rotate(333deg) brightness(114%) contrast(99%);
 }
 
 .item
