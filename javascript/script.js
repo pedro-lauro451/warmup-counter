@@ -61,7 +61,7 @@ chart_btn.onclick = () => {
 
 function generateNewChart()
 {
-        chart = new Chart(ctx, {
+    chart = new Chart(ctx, config = {
         type: "line",
         data: {
             labels: day,
